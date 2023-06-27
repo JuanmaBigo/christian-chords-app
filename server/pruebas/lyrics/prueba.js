@@ -128,6 +128,7 @@ Em       C       G             D        G
 
 let lyrics = getLyricsAndChords(letraJesucristoBasta);
 let lyricsContainer = document.getElementById('lyrics-container');
+console.log(lyrics);
 
 
 for (let verse of lyrics) {

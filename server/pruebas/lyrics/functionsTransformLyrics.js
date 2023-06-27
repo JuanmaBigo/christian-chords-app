@@ -1,6 +1,6 @@
 let letraCompleta2 =
-    `
-G    E     C   F
+`
+G          C   
 Escucho tu corazón, 
                              G
 cada latido está llamando mi nombre. 
@@ -26,6 +26,15 @@ y que tengo un lugar en tu mesa.
 No hay nada mejor que escuchar tu voz 
           D/F#                 G
 diciendo: nuestra comunión es eterna.
+
+            Am              D/F#
+Oh, oh, oh, oh, oh, oh, oh, oh, 
+             G
+me amaste primero, con amor verdadero. 
+            Am              D/F#
+Oh, oh, oh, oh, oh, oh, oh, oh, 
+                      G
+y me respuesta es adorar, mi respuesta es adorar.
 `;
 
 
@@ -292,3 +301,5 @@ function getLyricsAndChords(fullLyrics) {
     return lyricsAndChords;
 }
 
+
+console.log(getLyricsAndChords(letraCompleta2));
