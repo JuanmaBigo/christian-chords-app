@@ -1,35 +1,59 @@
-// let letraCompleta =
-//     `
-// *
-// G          C
-// Escucho tu corazón, 
-//                              G
-// cada latido está llamando mi nombre. 
-//                             C
-// Soy atraído otra vez por tu sangre, 
-//                         G
-// me siento tan amado por ti.
-// *
-// C
-// Me encuentro en tu corazón,
-//                           G
-// decidiste aceptarme por siempre. 
-//                               C
-// Tu amor por mí es tan sorprendente, 
-//                          G
-// me siento tan mimado por ti.
-// *
-// D/F#                Em
-// Y es tan bello saber que soy hijo 
-//       D/F#                 G
-// y que tengo un lugar en tu mesa. 
-//        D/F#               Em
-// No hay nada mejor que escuchar tu voz 
-//           D/F#                 G
-// diciendo: nuestra comunión es eterna.
-// `;
+let letraCompleta2 =
+    `
+G    E     C   F
+Escucho tu corazón, 
+                             G
+cada latido está llamando mi nombre. 
+                            C
+Soy atraído otra vez por tu sangre, 
+                        G
+me siento tan amado por ti.
 
-// getLyricsAndChords(letraCompleta);
+                   C
+Me encuentro en tu corazón,
+                          G
+decidiste aceptarme por siempre. 
+                              C
+Tu amor por mí es tan sorprendente, 
+                         G
+me siento tan mimado por ti.
+
+D/F#                         Em
+Y es tan bello saber que soy hijo 
+      D/F#                 G
+y que tengo un lugar en tu mesa. 
+       D/F#                Em
+No hay nada mejor que escuchar tu voz 
+          D/F#                 G
+diciendo: nuestra comunión es eterna.
+`;
+
+
+function processLyrics(fullLyrics) {
+    // Agregar salto de línea con asterisco al comienzo de la letra completa
+    const letraConAsterisco = `*\n${fullLyrics}`;
+  
+    // Reemplazar los saltos de línea vacíos por saltos de línea con asterisco
+    let fullLyricsConAsteriscos = letraConAsterisco.replace(/\n\n/g, '\n*\n');
+  
+    // Extraer texto entre paréntesis y agregar &nbsp; en la línea siguiente
+    const regex = /\((.*?)\)/g;
+    const matches = fullLyricsConAsteriscos.match(regex);
+  
+    if (matches) {
+      for (const match of matches) {
+        const textoExtraido = match.replace(/[()]/g, '').replace(/\s+/g, ' ');
+        fullLyricsConAsteriscos = fullLyricsConAsteriscos.replace(match, `\n${textoExtraido}\n&nbsp;`);
+      }
+    }
+
+    console.log(fullLyricsConAsteriscos)
+  
+    return fullLyricsConAsteriscos;
+  }
+  
+
+
 // result:
 // [
 //     [
@@ -112,6 +136,8 @@ function getLyricsFromVerse(verse) {
 }
 
 function getLyrics(fullLyrics) {
+    // agregar asteriscos
+    fullLyrics = processLyrics(fullLyrics)
     // separar versos
     let verses = fullLyrics.split('*');
     // trim empty spaces
@@ -143,6 +169,8 @@ function getChordsFromVerse(verse) {
 }
 
 function getChords(fullLyrics) {
+    // agregar asteriscos
+    fullLyrics = processLyrics(fullLyrics)
     // separar versos
     let verses = fullLyrics.split('*');
     // trim empty spaces
@@ -155,6 +183,7 @@ function getChords(fullLyrics) {
 
     return refactorLyrics;
 }
+
 
 function getChordsAndPositionFromLine(line) {
     let chords = [];
@@ -184,6 +213,9 @@ function getChordsAndPositionFromLine(line) {
 }
 
 function getChordsAndPosition(fullLyrics) {
+    // agregar asteriscos
+    fullLyrics = processLyrics(fullLyrics)
+
     let onlyChords = getChords(fullLyrics)
     let chords = [];
 
@@ -200,12 +232,48 @@ function getChordsAndPosition(fullLyrics) {
     return (chords)
 }
 
+function refactorChordsPosition(chords) {
+    let refactorChords = [];
+    for (let i = 0; i < chords.length; i++) {
+        let verse = chords[i];
+        let verseChords = [];
+        for (let j = 0; j < verse.length; j++) {
+            let line = verse[j];
+            let lineChords = line.chords;
+            let refactorLineChords = [];
+            for (let k = 0; k < lineChords.length; k++) {
+                let chord = lineChords[k];
+                let chordPosition = chord.position;
+                if (k > 0) {
+                    let previousChord = lineChords[k - 1];
+                    let previousChordPosition = previousChord.position;
+                    let previousChordLength = previousChord.chord.length;
+                    chordPosition = chordPosition - previousChordPosition - previousChordLength;
+                }
+                refactorLineChords.push({
+                    chord: chord.chord,
+                    position: chordPosition
+                });
+            }
+            verseChords.push({
+                chords: refactorLineChords
+            });
+        }
+        refactorChords.push(verseChords);
+    }
+    return refactorChords;
+}
+
 
 // ! JOIN lyrics and chords
 
 function getLyricsAndChords(fullLyrics) {
+    // agregar asteriscos
+    fullLyrics = processLyrics(fullLyrics)
+
     let lyrics = getLyrics(fullLyrics);
-    let chords = getChordsAndPosition(fullLyrics);
+    let chords = refactorChordsPosition(getChordsAndPosition(fullLyrics));
+    // console.log(chords)
 
     let lyricsAndChords = [];
     for (let i = 0; i < lyrics.length; i++) {
@@ -223,5 +291,4 @@ function getLyricsAndChords(fullLyrics) {
     }
     return lyricsAndChords;
 }
-
 
