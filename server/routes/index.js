@@ -1,5 +1,6 @@
 import express from 'express';
 import userRouter from './users.js'
+import songsRouter from './songs.js'
 
 
 let router = express.Router();
@@ -14,7 +15,8 @@ router.get('/', function (req, res, next) {
 // a traves del metodo .use() le indico al enrutador principal que utilice esas rutas con el endpoint correspondiente
 
 
-router.use("/auth",userRouter)
+router.use("/auth", userRouter)
+router.use("/songs", songsRouter)
 
 
 
