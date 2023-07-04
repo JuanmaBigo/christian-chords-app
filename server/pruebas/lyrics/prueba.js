@@ -39,8 +39,7 @@ y me respuesta es adorar, mi respuesta es adorar.
 
 let letraJesucristoBasta =
    `
-Em  C  G
-&nbsp
+(Em  C  G)
 Em         C   G     Em      C      G
   Nuestros corazones,   insaciables son
 Em       C   G           D    Em  C  G   D
@@ -95,7 +94,7 @@ G       D
 Em      C
    Jesucristo basta
 
-(Em  D  C9)
+(Em  D      C9)
 C                    Em  D
 Tal y como somos nos amó
 C                       Em  D
@@ -128,7 +127,7 @@ Em       C       G             D        G
 
 let lyrics = getLyricsAndChords(letraJesucristoBasta);
 let lyricsContainer = document.getElementById('lyrics-container');
-console.log(lyrics);
+// console.log(lyrics);
 
 
 for (let verse of lyrics) {
@@ -158,3 +157,17 @@ for (let verse of lyrics) {
 
    lyricsContainer.appendChild(verseContainer);
 }
+
+let arrayChords = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#','A', 'A#', 'B']
+
+function transportChords(chord, semitones) {
+   let index = arrayChords.indexOf(chord);
+   let newIndex = (index + semitones) % arrayChords.length;
+   let newChord = arrayChords[newIndex];
+   return newChord;
+}
+
+console.log(transportChords('C#', 1));
+console.log(transportChords('C', 12));
+console.log(transportChords('C', 13));
+
