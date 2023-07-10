@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+$main: rgb(94, 28, 168);
+$white: rgb(240, 239, 239);
+$dark: rgb(14, 8, 65);
+$background: #424242;
+$box-shadow: rgba(0, 0, 0, 0.25);
+$black: #090909;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    color: $white;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
